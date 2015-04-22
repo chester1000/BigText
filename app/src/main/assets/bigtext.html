@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body {
+            margin: 1%;
+        }
+        #container {
+            overflow: hidden;
+            font-size: 20px;
+            font-family: 'Roboto', sans-serif;
+            line-height: auto;
+            position: relative;
+        }
+        #text {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+        </style>
+    <script src="file:///android_asset/jquery-2.1.3.min.js"></script>
+  <script>
+    $(function() {
+      var $c = $('#container');
+      var $t = $('#text');
+
+      var margins = parseInt(2 * parseFloat($('body').css('margin')));
+
+      $c.height(595);
+      $c.width(842);
+
+      window.setText = function setText(text) {
+        $t.text(text);
+        adjustSize();
+        Android.ready();
+      }
+      window.getText = function getText() {
+        return $t.text();
+      }
+
+      function getFontSize() {
+        return parseInt($c.css("font-size"), 10);
+      }
+      function setFontSize(size) {
+        $c.css("font-size", size);
+      }
+      function incFontSize() {
+        setFontSize(getFontSize() + 1);
+      }
+      function decFontSize() {
+        setFontSize(getFontSize() - 1);
+      }
+      window.adjustSize = function adjustSize() {
+        setFontSize(20);
+        var i = 0;
+        while ($t[0].scrollHeight < $c.height()) {
+          incFontSize();
+          i++;
+        }
+        decFontSize();
+
+        var j = 0;
+        while ($t[0].scrollWidth > $c.width()) {
+          decFontSize();
+          j++;
+        }
+      }
+    });
+  </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="text"></div>
+    </div>
+  </body>
+</html>

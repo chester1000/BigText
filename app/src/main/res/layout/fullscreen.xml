@@ -1,0 +1,21 @@
+<com.meeDamian.lib.AutoResizeTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.meedamian.bigtext.FullscreenActivity"
+
+    android:id="@+id/text"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+
+    tools:ignore="MissingPrefix"
+
+    android:textStyle="bold"
+    android:textSize="300sp"
+    android:textColor="@android:color/black"
+    android:textColorHighlight="@android:color/transparent"
+
+    android:gravity="center_vertical"
+
+    tools:text="@string/dummy_content" />

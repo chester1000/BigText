@@ -1,0 +1,156 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:coolswitch="http://schemas.android.com/apk/res-auto"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.meedamian.bigtext.SettingsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_awesome_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/primary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/my_awesome_toolbar">
+
+
+        <!-- Smart Map Sharing -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <com.serchinastico.coolswitch.TargetFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/disabled_view_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"/>
+
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/enabled_view_bar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="#ff6db33a"-->
+                <!--android:orientation="vertical"/>-->
+
+            </com.serchinastico.coolswitch.TargetFrameLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/map_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Smart Map Sharing"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/map_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Extract place name only, when shared from Google Maps."
+                    android:textColor="@android:color/black" />
+
+                <com.serchinastico.coolswitch.CoolSwitch
+                    android:id="@+id/smart_maps"
+                    android:layout_height="35dp"
+                    android:layout_width="60dp"
+                    android:layout_gravity="center_horizontal"
+                    coolswitch:disabledView="@id/disabled_view_bar"
+                    coolswitch:enabledView="@id/mapview" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <com.serchinastico.coolswitch.TargetFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/disabled_view_foo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"/>
+
+                <LinearLayout
+                    android:id="@+id/enabled_view_foo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ff1a88e5"
+                    android:orientation="vertical"/>
+
+            </com.serchinastico.coolswitch.TargetFrameLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Connect Contacts"
+                    android:textColor="#333"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="All your phone Contacts will be automatically added to your friends list."
+                    android:textColor="#333" />
+
+                <com.serchinastico.coolswitch.CoolSwitch
+                    android:id="@+id/cool_switch_foo"
+                    android:layout_height="35dp"
+                    android:layout_width="60dp"
+                    android:layout_gravity="center_horizontal"
+                    coolswitch:disabledView="@id/disabled_view_foo"
+                    coolswitch:enabledView="@id/enabled_view_foo"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
