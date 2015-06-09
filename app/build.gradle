@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'play'
+apply plugin: 'com.github.triplet.play'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+
+apply from: '../autoVersionIncrement.gradle'
 
 play {
     serviceAccountEmail = safeGet('PLAY_EMAIL')
@@ -19,15 +23,20 @@ if (secretPropsFile.exists()) {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.0 rc2"
 
     defaultConfig {
         applicationId "com.meedamian.bigtext"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode getBuildVersion(1)
-        versionName "1.0"
+
+        versionCode calculateVersionCode() as Integer
+        versionName calculateVersionName() as String
     }
+
+//    dexOptions {
+//        incremental true
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -44,6 +53,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            versionNameSuffix "-SNAPSHOT"
+        }
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release as Object
@@ -51,8 +63,8 @@ android {
             zipAlignEnabled true
 
             File releasesDir = new File(
-                    safeGet('RELEASES_PARENT_DIR', '~/APKs'),
-                    safeGet('FOLDER_NAME', project.group as String)
+                safeGet('RELEASES_PARENT_DIR', '~/APKs'),
+                safeGet('FOLDER_NAME', project.group as String)
             )
             if (!releasesDir.exists())
                 releasesDir.mkdirs()
@@ -66,10 +78,10 @@ android {
                             ex. com.meedamian.testApp-release-1.0.0-1111
                         */
                         String fileName = [
-                                defaultConfig.applicationId,
-                                project.name,
-                                defaultConfig.versionName,
-                                getBuildVersion(android.defaultConfig.versionCode, true)
+                            defaultConfig.applicationId,
+                            project.name,
+                            calculateVersionName(),
+                            calculateVersionCode()
                         ].join('-')
 
                         // rename output APK
@@ -97,22 +109,24 @@ android {
     }
 }
 
+String supportVersion   = "22.2.0"
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:support-annotations:22.1.0'
-    compile 'com.android.support:appcompat-v7:22.1.0'
-    compile 'com.android.support:mediarouter-v7:22.1.0'
-    compile 'com.google.android.gms:play-services-cast:7.0.0'
-    compile 'com.google.android.gms:play-services-maps:7.0.0'
-    compile 'com.google.android.gms:play-services-location:7.0.0'
+    compile "com.android.support:support-annotations:"  + supportVersion
+    compile "com.android.support:appcompat-v7:"         + supportVersion
+    compile "com.android.support:mediarouter-v7:"       + supportVersion
+    compile "com.android.support:design:"               + supportVersion
 
-    compile 'uk.co.chrisjenx:calligraphy:2.0.2'
-    compile 'com.github.rey5137:material:1.0.0'
-    compile 'com.github.Serchinastico:CoolSwitch:1.0.0'
+    compile "com.google.android.gms:play-services-cast:7.5.0"
 
-//    compile 'me.grantland:autofittextview:0.2.1'
-    compile 'com.github.chester1000:AutoResizeTextView:1fe4c5a61c'
+    compile "uk.co.chrisjenx:calligraphy:2.1.0"
+    compile "com.github.rey5137:material:1.1.0"
+    compile "com.github.serchinastico:coolswitch:1.0.1"
+
+//    compile "me.grantland:autofittextview:0.2.1"
+    compile "com.github.chester1000:AutoResizeTextView:1fe4c5a61c"
 //    compile project(':libAutoResizeTextView')
 }
 
@@ -131,29 +145,29 @@ def safeLoad(String name, Object value, Boolean override = false) {
         project.set name, value
 }
 
-Integer getBuildVersion(defaultVersion, Boolean increment = false) {
-    File verFile = file('../version.properties')
-
-    if (!verFile.canRead())
-        verFile.createNewFile()
-
-    Properties props = new Properties()
-
-    props.load new FileInputStream(verFile)
-    String currentCodeVersion = props['VERSION_CODE']
-
-    if (currentCodeVersion == null)
-        currentCodeVersion = defaultVersion ?: android.defaultConfig.versionCode
-
-    if (increment) {
-        Integer bumpedCodeVersion = currentCodeVersion.toInteger() + 1
-        android.defaultConfig.versionCode = bumpedCodeVersion
-
-        props['VERSION_CODE'] = bumpedCodeVersion.toString()
-
-        props.store verFile.newWriter(), "Build version updated with each release build"
-        currentCodeVersion = bumpedCodeVersion
-    }
-
-    currentCodeVersion as Integer
-}
+//Integer getBuildVersion(defaultVersion, Boolean increment = false) {
+//    File verFile = file('../version.properties')
+//
+//    if (!verFile.canRead())
+//        verFile.createNewFile()
+//
+//    Properties props = new Properties()
+//
+//    props.load new FileInputStream(verFile)
+//    String currentCodeVersion = props['VERSION_CODE']
+//
+//    if (currentCodeVersion == null)
+//        currentCodeVersion = defaultVersion ?: android.defaultConfig.versionCode
+//
+//    if (increment) {
+//        Integer bumpedCodeVersion = currentCodeVersion.toInteger() + 1
+//        android.defaultConfig.versionCode = bumpedCodeVersion
+//
+//        props['VERSION_CODE'] = bumpedCodeVersion.toString()
+//
+//        props.store verFile.newWriter(), "Build version updated with each release build"
+//        currentCodeVersion = bumpedCodeVersion
+//    }
+//
+//    currentCodeVersion as Integer
+//}

@@ -1,0 +1,110 @@
+ext {
+    MAJOR = 'major'
+    MINOR = 'minor'
+    BUILD = 'build'
+
+    versionFile = new File(project.rootDir, "version.properties")
+
+    calculateVersionName = {
+        Properties version = readVersion()
+        "${version[MAJOR]}.${version[MINOR]}.${version[BUILD]}"
+    }
+
+    calculateVersionCode = {
+        Properties version = readVersion()
+
+        int major = version[MAJOR] as int
+        int minor = version[MINOR] as int
+        int build = version[BUILD] as int
+
+        1e5 * major + 1e3 * minor + build
+    }
+}
+
+
+Properties readVersion() {
+    File verFile = versionFile
+
+    if (!verFile.canRead())
+        verFile.createNewFile()
+
+    Properties props = new Properties()
+
+    props.load new FileInputStream(verFile)
+
+    // if sth missing: set and save default
+    if (!props[MAJOR] || !props[MINOR] || !props[BUILD]) {
+        saveVersion(
+            props[MAJOR] ?: "1",
+            props[MINOR] ?: "0",
+            props[BUILD] ?: "0"
+        )
+    }
+
+    props
+}
+
+void saveVersion(major, minor, build) {
+    Properties props = new Properties()
+
+    props[MAJOR] = major
+    props[MINOR] = minor
+    props[BUILD] = build
+
+    saveVersion props
+}
+void saveVersion(Properties props) {
+    File verFile = versionFile
+
+    props.store verFile.newWriter(), "APK version split into 3 groups "
+}
+
+void incrementVersionNumber(String which=BUILD) {
+    Properties version = readVersion()
+
+    println "dryRun: ${gradle.startParameter.dryRun}"
+
+    int number = version[which] as int
+    number++
+
+    version[which] = number.toString()
+
+    saveVersion(version)
+}
+
+task incrementVersion {
+    description "Increments build counter in ${versionFile}"
+    doFirst {
+        incrementVersionNumber()
+    }
+}
+
+if (plugins.hasPlugin("android") || plugins.hasPlugin("android-library")) {
+    android {
+        defaultConfig {
+            versionName = calculateVersionName()
+            versionCode = calculateVersionCode()
+        }
+
+        afterEvaluate {
+            def autoIncrementVariant = { variant ->
+                if (variant.buildType.name == buildTypes.release.name) {
+                    variant.preBuild.dependsOn incrementVersion
+                    incrementVersion.doLast {
+                        variant.mergedFlavor.versionName = calculateVersionName()
+                        variant.mergedFlavor.versionCode = calculateVersionCode()
+                    }
+                }
+            }
+
+            if (plugins.hasPlugin('android')) {
+                applicationVariants.all { variant -> autoIncrementVariant(variant) }
+            }
+
+            if (plugins.hasPlugin('android-library')) {
+                libraryVariants.all { variant -> autoIncrementVariant(variant) }
+            }
+        }
+    }
+
+}

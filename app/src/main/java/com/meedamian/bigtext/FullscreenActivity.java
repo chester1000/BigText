@@ -45,7 +45,7 @@ public class FullscreenActivity extends Activity {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void fixRecentsAppearance() {
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         String name = String.format("%s (%s)", text, getString(R.string.app_name));
         setTaskDescription(new ActivityManager.TaskDescription(name, icon, Color.WHITE));
     }

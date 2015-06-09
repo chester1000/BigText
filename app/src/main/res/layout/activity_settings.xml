@@ -8,6 +8,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_awesome_toolbar"
+        style="@style/Toolbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
@@ -39,18 +40,12 @@
                     android:background="@android:color/white"
                     android:orientation="vertical"/>
 
-
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/mapview"
+                <LinearLayout
+                    android:id="@+id/enabled_view_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <!--<LinearLayout-->
-                <!--android:id="@+id/enabled_view_bar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="#ff6db33a"-->
-                <!--android:orientation="vertical"/>-->
+                    android:layout_height="match_parent"
+                    android:background="#ff6db33a"
+                    android:orientation="vertical"/>
 
             </com.serchinastico.coolswitch.TargetFrameLayout>
 
@@ -85,7 +80,7 @@
                     android:layout_width="60dp"
                     android:layout_gravity="center_horizontal"
                     coolswitch:disabledView="@id/disabled_view_bar"
-                    coolswitch:enabledView="@id/mapview" />
+                    coolswitch:enabledView="@id/enabled_view_bar" />
 
             </LinearLayout>
 

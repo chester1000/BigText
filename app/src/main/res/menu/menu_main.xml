@@ -3,15 +3,15 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".MainActivity">
 
-      <item android:id="@+id/action_print"
-            android:title="@string/action_print"
-            android:icon="@drawable/ic_action_print"
-            app:showAsAction="ifRoom" />
-
       <item android:id="@+id/buy_premium"
             android:title="Buy premium"
-            android:icon="@drawable/ic_action_shop"
+            android:icon="@drawable/ic_shop_white_24dp"
             app:showAsAction="always" />
+
+      <item android:id="@+id/action_print"
+            android:title="@string/action_print"
+            android:icon="@drawable/ic_print_white_24dp"
+            app:showAsAction="ifRoom" />
 
       <item android:id="@+id/action_settings"
             android:title="@string/action_settings"

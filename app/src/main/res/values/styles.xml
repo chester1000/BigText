@@ -1,20 +1,15 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-    </style>
-
-    <style name="FloatingColorButtonRippleStyle" parent="Material.Drawable.Ripple.Touch.Light">
-        <item name="rd_rippleColor">#33000000</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/primary</item>
     </style>
 
     <style name="FloatingColorActionButton" parent="Material.Widget.FloatingActionButton.Light">
         <item name="fab_backgroundColor">@color/accent</item>
         <item name="fab_elevation">4dp</item>
-        <item name="fab_iconSrc">@drawable/ic_action_publish</item>
-        <item name="ripple">@style/FloatingColorButtonRippleStyle</item>
-        <item name="delayClick">true</item>
+        <item name="fab_iconSrc">@drawable/ic_open_with_white_24dp</item>
+        <item name="rd_rippleColor">#33000000</item>
+        <item name="rd_delayClick">true</item>
     </style>
 
     <style name="FullscreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -23,5 +18,4 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-
 </resources>

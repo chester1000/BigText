@@ -34,14 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences sp;
 
-    private IapHelper iapHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        iapHelper = IapHelper.getInstance(this);
 
         sp = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -115,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.buy_premium:
-                iapHelper.buyPremium();
                 return true;
 
             case R.id.action_print:
@@ -200,15 +195,6 @@ public class MainActivity extends AppCompatActivity {
                 .build()
         );
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (iapHelper != null) iapHelper.dispose();
-        iapHelper = null;
-    }
-
-
 }
 
 
